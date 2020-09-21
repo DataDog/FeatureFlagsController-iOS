@@ -1,10 +1,13 @@
-// Copyright © Datadog, Inc. All rights reserved.
+/*
+ * Unless explicitly stated otherwise all files in this repository are licensed under the MIT License.
+ * This product includes software developed at Datadog (https://www.datadoghq.com/).
+ * Copyright 2020 Datadog, Inc.
+ */
 
 import Foundation
 import SwiftUI
 import Combine
 import FeatureFlagsController
-
 
 /// Fake "Remote Feature Flag" illustrating how one can implement a custom feature flag.
 ///
