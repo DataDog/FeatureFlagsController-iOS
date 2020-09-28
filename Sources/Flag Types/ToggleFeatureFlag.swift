@@ -46,7 +46,7 @@ public struct ToggleFeatureFlag: FeatureFlag {
     }
     
     public var view: some View {
-        Toggle(isOn: binding) {
+        Toggle(isOn: valueBinding) {
             Text(title)
         }
     }

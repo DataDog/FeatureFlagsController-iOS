@@ -53,7 +53,7 @@ public struct PickerFeatureFlag<Value, Style: PickerStyle>: FeatureFlag where
         HStack(spacing: 16) {
             Text(title)
             Spacer()
-            Picker(selection: binding, label: Text("")) {
+            Picker(selection: valueBinding, label: Text("")) {
                 ForEach(Value.allCases, id: \.hashValue) { value in
                     value.makeView()
                 }

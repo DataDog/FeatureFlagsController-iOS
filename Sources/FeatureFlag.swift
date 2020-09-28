@@ -23,18 +23,28 @@ public protocol FeatureFlag {
 }
 
 extension FeatureFlag {
-    public var id: String { featureFlagKey(for: title) }
-    public var binding: Binding<Value> {
+    
+    public func register() -> AnyPublisher<Value, Never> {
+        FeatureFlagsController.shared.register(self)
+    }
+ 
+    public var valueBinding: Binding<Value> {
         Binding {
             self.value
         } set: {
             self.value = $0
         }
     }
-    
-    public func register() -> AnyPublisher<Value, Never> {
-        FeatureFlagsController.shared.register(self)
+
+    public var id: String {
+        let slugifiedTitle = title
+            .components(separatedBy:
+                CharacterSet.alphanumerics.inverted
+            )
+            .joined(separator: "-")
+        return "FeatureFlag_\(slugifiedTitle)"
     }
+    
 }
 
 private var preferredUserDefaults: UserDefaults = .featureFlagsSuite
@@ -51,11 +61,4 @@ extension UserDefaults {
         }
         return UserDefaults(suiteName: "\(bundleIdentifier).FeatureFlagsController") ?? .standard
     }
-}
-
-private func featureFlagKey(for title: String) -> String {
-    let slugifiedTitle = title
-        .components(separatedBy: CharacterSet.alphanumerics.inverted)
-        .joined(separator: "-")
-    return "FeatureFlag_\(slugifiedTitle)"
 }

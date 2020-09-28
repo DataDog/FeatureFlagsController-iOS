@@ -58,21 +58,12 @@ final class Example1ViewController: UIViewController {
     private enum Colors: String, CaseIterable {
         case red, green, blue
     }
-
-    private lazy var colorFeatureFlag = PickerFeatureFlag(
-        title: "Color",
-        defaultValue: Colors.red,
-        group: title
-    )
-    
-    private lazy var roundedCornersFeatureFlag = FeatureFlagsGroup(
-        title: "Rounded Corners", group: title,
-        first: RemoteToggleFeatureFlag(key: "uses_rounded_corners"),
-        second: ToggleFeatureFlag(title: "Rounded Corners", defaultValue: true)
-    )
     
     private func setUpColorFeatureFlag() {
-        colorFeatureFlag.register()
+        PickerFeatureFlag(
+            title: "Color", defaultValue: Colors.red, group: title
+        )
+        .register()
         .map {
             switch $0 {
             case .red: return UIColor.systemRed
@@ -85,14 +76,24 @@ final class Example1ViewController: UIViewController {
     }
     
     private func setUpRoundedCornersFeatureFlag() {
-        roundedCornersFeatureFlag.register()
+        FeatureFlagsGroup(
+            title: "Rounded Corners",// group: title,
+            first: RemoteToggleFeatureFlag(
+                key: "uses_rounded_corners"
+            ),
+            second:
+                ToggleFeatureFlag(
+                title: "Rounded Corners", defaultValue: true
+            )
+        )
+        .register()
         .map { $0 ? 16 : 0 }
         .assign(to: \.cornerRadius, on: squareView.layer)
         .store(in: &cancellables)
     }
-        
+    
     // MARK: - Actions
-
+    
     @objc
     private func openExample2() {
         navigationController?.pushViewController(Example2ViewController(), animated: true)
