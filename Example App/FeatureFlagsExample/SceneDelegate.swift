@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let exampleTab = UINavigationController(rootViewController: Example1ViewController())
         exampleTab.tabBarItem = UITabBarItem(title: "Examples", image: UIImage(systemName: "eye"), tag: 0)
         
-        let featureFlagsTab = UIHostingController(rootView: NavigationView { FeatureFlagsView() })
+        let featureFlagsTab = UIHostingController(rootView: FeatureFlagsView())
         featureFlagsTab.tabBarItem = UITabBarItem(title: "Feature Flags", image: UIImage(systemName: "slider.horizontal.below.rectangle"), tag: 1)
         
         tabBarController.viewControllers = [exampleTab, featureFlagsTab]

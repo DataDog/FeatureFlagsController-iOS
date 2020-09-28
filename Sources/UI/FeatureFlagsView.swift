@@ -26,16 +26,18 @@ public struct FeatureFlagsView: View {
     }
     
     public var body: some View {
-        Form {
-            ForEach(groupedFlags, id: \.0) { groupName, factories in
-                Section(header: Text(groupName ?? "")) {
-                    ForEach(factories, id: \.id) { factory in
-                        factory.makeView()
+        NavigationView {
+            Form {
+                ForEach(groupedFlags, id: \.0) { groupName, factories in
+                    Section(header: Text(groupName ?? "")) {
+                        ForEach(factories, id: \.id) { factory in
+                            factory.makeView()
+                        }
                     }
                 }
             }
+            .navigationBarTitle("Feature Flags")
         }
-        .navigationBarTitle("Feature Flags")
     }
 }
 
