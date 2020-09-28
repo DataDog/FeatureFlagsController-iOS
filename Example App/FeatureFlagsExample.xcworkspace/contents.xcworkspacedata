@@ -5,6 +5,12 @@
       location = "group:../README.md">
    </FileRef>
    <FileRef
+      location = "group:../Package.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../FeatureFlagsController.podspec">
+   </FileRef>
+   <FileRef
       location = "container:FeatureFlagsExample.xcodeproj">
    </FileRef>
 </Workspace>
