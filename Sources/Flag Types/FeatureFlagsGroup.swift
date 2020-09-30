@@ -42,6 +42,7 @@ public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: Featur
                 .publisher(for: UserDefaults.didChangeNotification)
                 .map { _ in self.activeFeatureFlagID.wrappedValue }
                 .removeDuplicates()
+                .receive(on: DispatchQueue.main)
                 .map { _ in self.value },
             first.valuePublisher,
             second.valuePublisher
