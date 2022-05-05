@@ -61,7 +61,7 @@ final class Example1ViewController: UIViewController {
     
     private func setUpColorFeatureFlag() {
         PickerFeatureFlag(
-            title: "Color", defaultValue: Colors.red, group: title
+            title: "Color", defaultValue: Colors.red, group: "UIKIT EXAMPLE #1"
         )
         .register()
         .map {
@@ -77,14 +77,14 @@ final class Example1ViewController: UIViewController {
     
     private func setUpRoundedCornersFeatureFlag() {
         FeatureFlagsGroup(
-            title: "Rounded Corners",// group: title,
+            title: "Rounded Corners",
             first: RemoteToggleFeatureFlag(
                 key: "uses_rounded_corners"
             ),
-            second:
-                ToggleFeatureFlag(
+            second: ToggleFeatureFlag(
                 title: "Rounded Corners", defaultValue: true
-            )
+            ),
+            group: "UIKIT EXAMPLE #1"
         )
         .register()
         .map { $0 ? 16 : 0 }

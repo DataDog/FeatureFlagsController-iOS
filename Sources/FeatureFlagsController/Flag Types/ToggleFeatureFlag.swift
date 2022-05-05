@@ -8,7 +8,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-public struct ToggleFeatureFlag: FeatureFlag {
+public struct ToggleFeatureFlag: FeatureFlagType {
     
     public init(title: String, defaultValue: Bool, group: String? = nil, userDefaults: UserDefaults = .featureFlags) {
         self.title = title
@@ -55,3 +55,22 @@ public struct ToggleFeatureFlag: FeatureFlag {
         value
     }
 }
+
+
+extension FeatureFlagType {
+    public static func toggle(
+        title: String, defaultValue: Bool, group: String? = nil, userDefaults: UserDefaults = .featureFlags
+    ) -> Self where Self == ToggleFeatureFlag {
+        ToggleFeatureFlag(title: title, defaultValue: defaultValue, group: group, userDefaults: userDefaults)
+    }
+}
+
+@available(iOS 14, *)
+extension FeatureFlag {
+    public init(
+        wrappedValue: F.Value, title: String, group: String? = nil, userDefaults: UserDefaults = .featureFlags
+    ) where F == ToggleFeatureFlag {
+        self.init(ToggleFeatureFlag(title: title, defaultValue: wrappedValue, group: group, userDefaults: userDefaults))
+    }
+}
+

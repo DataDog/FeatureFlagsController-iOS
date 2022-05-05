@@ -12,7 +12,7 @@ import FeatureFlagsController
 /// Fake "Remote Feature Flag" illustrating how one can implement a custom feature flag.
 ///
 /// From this, it should be quite easy to integrate a 3rd party service like Firebase Remote Config or Launch Darkly
-public struct RemoteToggleFeatureFlag: FeatureFlag {
+public struct RemoteToggleFeatureFlag: FeatureFlagType {
     
     public init(key: String, group: String? = nil) {
         self.id = "RemoteFeatureFlag_\(key)"
@@ -39,5 +39,13 @@ public struct RemoteToggleFeatureFlag: FeatureFlag {
             Spacer()
             Text(value ? "true" : "false").foregroundColor(.secondary)
         }
+    }
+}
+
+extension FeatureFlagType {
+    public static func remoteToggle(
+        key: String, group: String? = nil
+    ) -> Self where Self == RemoteToggleFeatureFlag {
+        RemoteToggleFeatureFlag(key: key, group: group)
     }
 }

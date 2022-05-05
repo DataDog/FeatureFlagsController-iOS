@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		52D6D9871BEFF229002C0205 /* FeatureFlagsController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* FeatureFlagsController.framework */; };
+		7537604E2822DAED00C373E6 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537604D2822DAEC00C373E6 /* FeatureFlag.swift */; };
+		753760532822E17B00C373E6 /* CountFeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753760522822E17B00C373E6 /* CountFeatureFlag.swift */; };
 		7561A566251898FB00F405DA /* PickerFeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A560251898FA00F405DA /* PickerFeatureFlag.swift */; };
-		7561A567251898FB00F405DA /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A561251898FB00F405DA /* FeatureFlag.swift */; };
+		7561A567251898FB00F405DA /* FeatureFlagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A561251898FB00F405DA /* FeatureFlagType.swift */; };
 		7561A568251898FB00F405DA /* FeatureFlagsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A562251898FB00F405DA /* FeatureFlagsController.swift */; };
 		7561A569251898FB00F405DA /* ToggleFeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A563251898FB00F405DA /* ToggleFeatureFlag.swift */; };
 		7561A56A251898FB00F405DA /* FeatureFlagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A564251898FB00F405DA /* FeatureFlagsView.swift */; };
@@ -31,8 +33,10 @@
 /* Begin PBXFileReference section */
 		52D6D97C1BEFF229002C0205 /* FeatureFlagsController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureFlagsController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* FeatureFlagsController-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FeatureFlagsController-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7537604D2822DAEC00C373E6 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
+		753760522822E17B00C373E6 /* CountFeatureFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountFeatureFlag.swift; sourceTree = "<group>"; };
 		7561A560251898FA00F405DA /* PickerFeatureFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerFeatureFlag.swift; sourceTree = "<group>"; };
-		7561A561251898FB00F405DA /* FeatureFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
+		7561A561251898FB00F405DA /* FeatureFlagType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagType.swift; sourceTree = "<group>"; };
 		7561A562251898FB00F405DA /* FeatureFlagsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagsController.swift; sourceTree = "<group>"; };
 		7561A563251898FB00F405DA /* ToggleFeatureFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleFeatureFlag.swift; sourceTree = "<group>"; };
 		7561A564251898FB00F405DA /* FeatureFlagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagsView.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 		7561A5702518990500F405DA /* Flag Types */ = {
 			isa = PBXGroup;
 			children = (
+				753760522822E17B00C373E6 /* CountFeatureFlag.swift */,
 				7561A563251898FB00F405DA /* ToggleFeatureFlag.swift */,
 				7561A560251898FA00F405DA /* PickerFeatureFlag.swift */,
 				7561A5852518A7CC00F405DA /* FeatureFlagsGroup.swift */,
@@ -112,12 +117,14 @@
 		8933C7811EB5B7E0000D00A4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				7561A561251898FB00F405DA /* FeatureFlag.swift */,
+				7537604D2822DAEC00C373E6 /* FeatureFlag.swift */,
+				7561A561251898FB00F405DA /* FeatureFlagType.swift */,
 				7561A562251898FB00F405DA /* FeatureFlagsController.swift */,
 				7561A5732518991200F405DA /* UI */,
 				7561A5702518990500F405DA /* Flag Types */,
 			);
-			path = Sources;
+			name = Sources;
+			path = Sources/FeatureFlagsController;
 			sourceTree = "<group>";
 		};
 		8933C7831EB5B7EB000D00A4 /* Tests */ = {
@@ -255,8 +262,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753760532822E17B00C373E6 /* CountFeatureFlag.swift in Sources */,
 				7561A56B251898FB00F405DA /* FeatureFlagViewFactory.swift in Sources */,
-				7561A567251898FB00F405DA /* FeatureFlag.swift in Sources */,
+				7561A567251898FB00F405DA /* FeatureFlagType.swift in Sources */,
+				7537604E2822DAED00C373E6 /* FeatureFlag.swift in Sources */,
 				7561A56A251898FB00F405DA /* FeatureFlagsView.swift in Sources */,
 				7561A5862518A7CC00F405DA /* FeatureFlagsGroup.swift in Sources */,
 				7561A566251898FB00F405DA /* PickerFeatureFlag.swift in Sources */,

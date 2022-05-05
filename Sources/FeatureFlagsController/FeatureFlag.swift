@@ -4,61 +4,39 @@
  * Copyright 2020 Datadog, Inc.
  */
 
-import Combine
-import Foundation
 import SwiftUI
 import Combine
 
-public protocol FeatureFlag {
-    associatedtype Value: Equatable
-    associatedtype View: SwiftUI.View
-    
-    var id: String { get }
-    var title: String { get }
-    var group: String? { get }
-    var value: Value { get nonmutating set }
-    var valuePublisher: AnyPublisher<Value, Never> { get }
-    
-    var view: View { get }
-}
+@available(iOS 14, *)
+@propertyWrapper
+public struct FeatureFlag<F: FeatureFlagType>: DynamicProperty {
+    @StateObject private var registration: Registration
+    private let featureFlag: F
 
-extension FeatureFlag {
-    
-    public func register() -> AnyPublisher<Value, Never> {
-        FeatureFlagsController.shared.register(self)
+    public var wrappedValue: F.Value {
+        registration.value
     }
- 
-    public var valueBinding: Binding<Value> {
-        Binding {
-            self.value
-        } set: {
-            self.value = $0
+    
+    public var projectedValue: F {
+        featureFlag
+    }
+
+    public init(_ featureFlag: F) {
+        self.featureFlag = featureFlag
+        self._registration = StateObject(wrappedValue: Registration(featureFlag))
+    }
+
+    private class Registration: ObservableObject {
+        
+        @Published var value: F.Value
+        
+        private var cancellable: AnyCancellable?
+        
+        init(_ featureFlag: F) {
+            value = featureFlag.value
+            cancellable = featureFlag.register().sink(receiveValue: { [weak self] newValue in
+                self?.value = newValue
+            })
         }
-    }
-
-    public var id: String {
-        let slugifiedTitle = title
-            .components(separatedBy:
-                CharacterSet.alphanumerics.inverted
-            )
-            .joined(separator: "-")
-        return "FeatureFlag_\(slugifiedTitle)"
-    }
-    
-}
-
-private var preferredUserDefaults: UserDefaults = .featureFlagsSuite
-
-extension UserDefaults {
-    public static var featureFlags: UserDefaults {
-        get { preferredUserDefaults }
-        set { preferredUserDefaults = newValue }
-    }
-    
-    public static var featureFlagsSuite: UserDefaults {
-        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            return .standard
-        }
-        return UserDefaults(suiteName: "\(bundleIdentifier).FeatureFlagsController") ?? .standard
     }
 }

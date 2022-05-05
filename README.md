@@ -8,8 +8,8 @@ FeatureFlagsController is a micro-library to automatically build a SwiftUI Form 
 
 ## Requirements
 - iOS 13.0+
-- Xcode 12.0+
-- Swift 5.2+
+- Xcode 13.0+
+- Swift 5.5+
 
 
 ## Installation
@@ -30,7 +30,7 @@ Add the following to your `Podfile`:
 
 ### FeatureFlagsView
 
-All registered feature flags appear in a `FeatureFlagsView` which is a `SwiftUI.View` composed of a `NavigationView` and a sectionned `Form`.
+All registered feature flags appear in a `FeatureFlagsView` which is a `SwiftUI.View` composed of a `NavigationView` and a sectioned `Form`.
 You can display this view anywhere in your application. In a hidden "debug" menu for example. 
 
 This form keeps track of registered feature flags and display the right UI to modify them at runtime. A `ToggleFeatureFlag` will display a simple `Toggle` (`UISwitch`) while a `PickerFeatureFlag` will display a segmented control or a sub-menu depending the picker style it is given.
@@ -61,6 +61,26 @@ roundedCornersFeatureFlag
     .store(in: &cancellables) // On cancellation, the feature flag is removed from the `FeatureFlagsView`
 ```
 
+### SwiftUI
+
+In SwiftUI, it's even simpler. You can just use the `@FeatureFlag` property wrapper, either by passing a declared feature flag, or by using a convenience init.
+```swift
+static let roundedCornersFeatureFlag = ToggleFeatureFlag(
+    title: "Rounded Corners", defaultValue: true, group: "Home Screen"
+)
+
+@FeatureFlag(Self.roundedCornersFeatureFlag) var hasRoundedCorners
+```
+Or...
+```swift
+@FeatureFlag(title: "Rounded Corners", group: "Home Screen") 
+var hasRoundedCorners = true
+```
+
+You can also use the projected value to get the underlying feature flag:
+```swift
+Text($hasRoundedCorners.title)
+```
 
 ## License
 

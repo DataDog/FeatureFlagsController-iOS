@@ -13,7 +13,7 @@ internal struct FeatureFlagViewFactory {
     let group: String?
     let makeView: () -> AnyView
     
-    init<F: FeatureFlag>(_ flag: F) {
+    init<F: FeatureFlagType>(_ flag: F) {
         id = flag.id
         group = flag.group
         makeView = { AnyView(flag.view) }

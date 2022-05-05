@@ -72,7 +72,7 @@ final class Example2ViewController: UIViewController {
     private lazy var orientationFeatureFlag = PickerFeatureFlag(
         title: "Orientation",
         defaultValue: Orientation.portrait,
-        group: title,
+        group: "UIKIT EXAMPLE #2",
         style: SegmentedPickerStyle()
     )
     

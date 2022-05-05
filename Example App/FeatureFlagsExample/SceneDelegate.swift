@@ -26,12 +26,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         
         let exampleTab = UINavigationController(rootViewController: Example1ViewController())
-        exampleTab.tabBarItem = UITabBarItem(title: "Examples", image: UIImage(systemName: "eye"), tag: 0)
+        exampleTab.tabBarItem = UITabBarItem(title: "UIKit Ex.", image: UIImage(systemName: "eye"), tag: 0)
         
+
         let featureFlagsTab = UIHostingController(rootView: FeatureFlagsView())
-        featureFlagsTab.tabBarItem = UITabBarItem(title: "Feature Flags", image: UIImage(systemName: "slider.horizontal.below.rectangle"), tag: 1)
+        featureFlagsTab.tabBarItem = UITabBarItem(title: "Feature Flags", image: UIImage(systemName: "slider.horizontal.below.rectangle"), tag: 2)
         
-        tabBarController.viewControllers = [exampleTab, featureFlagsTab]
+        if #available(iOS 14, *) {
+            let swiftUIExampleTab = UINavigationController(rootViewController: UIHostingController(rootView: Example3View()))
+            swiftUIExampleTab.navigationBar.prefersLargeTitles = true
+            swiftUIExampleTab.tabBarItem = UITabBarItem(title: "SwiftUI Ex.", image: UIImage(systemName: "eye"), tag: 1)
+            
+            tabBarController.viewControllers = [exampleTab, swiftUIExampleTab, featureFlagsTab]
+        } else {
+            tabBarController.viewControllers = [exampleTab, featureFlagsTab]
+        }
+        
         window.rootViewController = tabBarController
 
         self.window = window

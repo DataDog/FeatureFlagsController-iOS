@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		753760502822DE3800C373E6 /* Example3View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537604F2822DE3800C373E6 /* Example3View.swift */; };
 		7561A4F92518979100F405DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A4F82518979100F405DA /* AppDelegate.swift */; };
 		7561A4FB2518979100F405DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7561A4FA2518979100F405DA /* SceneDelegate.swift */; };
 		7561A5022518979200F405DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7561A5012518979200F405DA /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7537604F2822DE3800C373E6 /* Example3View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example3View.swift; sourceTree = "<group>"; };
 		7561A4F52518979100F405DA /* FeatureFlagsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureFlagsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7561A4F82518979100F405DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7561A4FA2518979100F405DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				7561A4FA2518979100F405DA /* SceneDelegate.swift */,
 				7561A556251898C900F405DA /* Example1ViewController.swift */,
 				7561A557251898C900F405DA /* Example2ViewController.swift */,
+				7537604F2822DE3800C373E6 /* Example3View.swift */,
 				7561A5762518992700F405DA /* RemoteFeatureFlag.swift */,
 				7561A5012518979200F405DA /* Assets.xcassets */,
 				7561A5032518979200F405DA /* LaunchScreen.storyboard */,
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7561A4F92518979100F405DA /* AppDelegate.swift in Sources */,
+				753760502822DE3800C373E6 /* Example3View.swift in Sources */,
 				7561A5772518992700F405DA /* RemoteFeatureFlag.swift in Sources */,
 				7561A559251898C900F405DA /* Example2ViewController.swift in Sources */,
 				7561A4FB2518979100F405DA /* SceneDelegate.swift in Sources */,

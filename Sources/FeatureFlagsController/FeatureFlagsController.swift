@@ -13,7 +13,7 @@ internal final class FeatureFlagsController: ObservableObject {
 
     private init() {}
 
-    internal func register<F: FeatureFlag>(
+    internal func register<F: FeatureFlagType>(
         _ flag: F
     ) -> AnyPublisher<F.Value, Never> {
         
@@ -45,13 +45,13 @@ internal final class FeatureFlagsController: ObservableObject {
 
     private var publishers: [String: Any] = [:]
 
-    private func publisher<F: FeatureFlag>(
+    private func publisher<F: FeatureFlagType>(
         for flag: F
     ) -> AnyPublisher<F.Value, Never>? {
         publishers[flag.id] as? AnyPublisher<F.Value, Never>
     }
     
-    private func addPublisher<F: FeatureFlag>(
+    private func addPublisher<F: FeatureFlagType>(
         _ publisher: AnyPublisher<F.Value, Never>,
         for flag: F
     ) {
@@ -61,7 +61,7 @@ internal final class FeatureFlagsController: ObservableObject {
         publishers[flag.id] = publisher
     }
 
-    private func removePublisher<F: FeatureFlag>(
+    private func removePublisher<F: FeatureFlagType>(
         for flag: F
     ) {
         viewFactories.removeAll(where: { $0.id == flag.id })

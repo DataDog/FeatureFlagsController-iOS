@@ -8,9 +8,9 @@ import Foundation
 import SwiftUI
 import Combine
 
-public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: FeatureFlag, View where First.Value == Second.Value {
+public struct FeatureFlagsGroup<First: FeatureFlagType, Second: FeatureFlagType>: FeatureFlagType where First.Value == Second.Value {
     
-    public init(title: String, group: String? = nil, first: First, second: Second, userDefaults: UserDefaults = .featureFlags) {
+    public init(title: String, first: First, second: Second, group: String? = nil, userDefaults: UserDefaults = .featureFlags) {
         self.title = title
         self.group = group ?? first.group ?? second.group
         self.first = first
@@ -24,7 +24,7 @@ public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: Featur
     public let title: String
     public let group: String?
     
-    private let userDefaults: UserDefaults
+    fileprivate let userDefaults: UserDefaults
     
     private var values: [String: Value] {
         [first.id: first.value, second.id: second.value]
@@ -32,7 +32,7 @@ public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: Featur
 
     public typealias Value = First.Value
     public var value: Value {
-        get { values[activeFeatureFlagID.wrappedValue] ?? first.value }
+        get { values[activeFeatureFlagID] ?? first.value }
         nonmutating set { }
     }
         
@@ -40,7 +40,7 @@ public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: Featur
         Publishers.Merge3(
             NotificationCenter.default
                 .publisher(for: UserDefaults.didChangeNotification)
-                .map { _ in self.activeFeatureFlagID.wrappedValue }
+                .map { _ in self.activeFeatureFlagID }
                 .removeDuplicates()
                 .receive(on: DispatchQueue.main)
                 .map { _ in self.value },
@@ -52,42 +52,71 @@ public struct FeatureFlagsGroup<First: FeatureFlag, Second: FeatureFlag>: Featur
     }
     
     public var view: some View {
-        self
-    }
-
-    public var body: some View {
-        NavigationLink(destination: detail) {
+        NavigationLink(destination: FeatureFlagsGroupDetailView(featureFlag: self)) {
             Text(title)
         }
     }
     
+    fileprivate var activeFeatureFlagID: String {
+        get {
+            userDefaults.string(forKey: id + "_activeFeatureFlagID") ?? first.id
+        }
+        nonmutating set {
+            userDefaults.set(newValue, forKey: id + "_activeFeatureFlagID")
+        }
+    }
+    
+}
+
+private struct FeatureFlagsGroupDetailView<First: FeatureFlagType, Second: FeatureFlagType>: View where First.Value == Second.Value {
+    
+    let featureFlag: FeatureFlagsGroup<First, Second>
+    
     @State var refreshCount: Int = 0
+    
     private var activeFeatureFlagID: Binding<String> {
         Binding {
-            userDefaults.string(forKey: id + "_activeFeatureFlagID") ?? first.id
+            featureFlag.activeFeatureFlagID
         } set: { newValue in
-            userDefaults.set(newValue, forKey: id + "_activeFeatureFlagID")
+            featureFlag.activeFeatureFlagID = newValue
             refreshCount += 1
         }
     }
     
-    var detail: some View {
+    var body: some View {
         Form {
             Section(header: Text("ACTIVE FEATURE FLAG")) {
                 Picker("", selection: activeFeatureFlagID) {
-                    Text("First").tag(first.id)
-                    Text("Second").tag(second.id)
+                    Text("First").tag(featureFlag.first.id)
+                    Text("Second").tag(featureFlag.second.id)
                 }
                 .pickerStyle(SegmentedPickerStyle())
             }
             Section(header: Text("FIRST FEATURE FLAG")) {
-                first.view.opacity(activeFeatureFlagID.wrappedValue == first.id ? 1 : 0.5)
+                featureFlag.first.view.opacity(activeFeatureFlagID.wrappedValue == featureFlag.first.id ? 1 : 0.5)
             }
             Section(header: Text("SECOND FEATURE FLAG")) {
-                second.view.opacity(activeFeatureFlagID.wrappedValue == second.id ? 1 : 0.5)
+                featureFlag.second.view.opacity(activeFeatureFlagID.wrappedValue == featureFlag.second.id ? 1 : 0.5)
             }
         }
         .tag(refreshCount)
-        .navigationBarTitle(title)
+        .navigationBarTitle(featureFlag.title)
+    }
+}
+
+extension FeatureFlagType {
+    public static func group<First: FeatureFlagType, Second: FeatureFlagType>(
+        title: String, first: First, second: Second, group: String? = nil, userDefaults: UserDefaults = .featureFlags
+    ) -> Self where Self == FeatureFlagsGroup<First, Second> {
+        FeatureFlagsGroup(title: title, first: first, second: second, group: group, userDefaults: userDefaults)
+    }
+}
+
+@available(iOS 14, *)
+extension FeatureFlag {
+    public init<First, Second>(
+        title: String, first: First, second: Second, group: String? = nil, userDefaults: UserDefaults = .featureFlags
+    ) where F == FeatureFlagsGroup<First, Second> {
+        self.init(FeatureFlagsGroup(title: title, first: first, second: second, group: group, userDefaults: userDefaults))
     }
 }
