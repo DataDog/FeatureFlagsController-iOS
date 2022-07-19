@@ -30,6 +30,14 @@ public struct FeatureFlagsGroup<First: FeatureFlagType, Second: FeatureFlagType>
         [first.id: first.value, second.id: second.value]
     }
 
+    private var valuePublishers: [String: AnyPublisher<Value, Never>] {
+        [first.id: first.valuePublisher, second.id: second.valuePublisher]
+    }
+    
+    private var activeValuePublisher: AnyPublisher<Value, Never> {
+        valuePublishers[activeFeatureFlagID] ?? first.valuePublisher
+    }
+
     public typealias Value = First.Value
     public var value: Value {
         get { values[activeFeatureFlagID] ?? first.value }
@@ -37,18 +45,16 @@ public struct FeatureFlagsGroup<First: FeatureFlagType, Second: FeatureFlagType>
     }
         
     public var valuePublisher: AnyPublisher<Value, Never> {
-        Publishers.Merge3(
-            NotificationCenter.default
-                .publisher(for: UserDefaults.didChangeNotification)
-                .map { _ in self.activeFeatureFlagID }
-                .removeDuplicates()
-                .receive(on: DispatchQueue.main)
-                .map { _ in self.value },
-            first.valuePublisher,
-            second.valuePublisher
-        )
-        .removeDuplicates()
-        .eraseToAnyPublisher()
+        NotificationCenter.default
+            .publisher(for: UserDefaults.didChangeNotification)
+            .map { _ in self.activeFeatureFlagID }
+            .prepend(self.activeFeatureFlagID)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .flatMap { _ in
+                self.activeValuePublisher.prepend(self.value)
+            }
+            .eraseToAnyPublisher()
     }
     
     public var view: some View {

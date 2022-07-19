@@ -14,17 +14,14 @@ struct Example3View: View {
         title: "Trailing Index", defaultValue: true, group: "SWIFTUI EXAMPLE"
     )
  
-    @FeatureFlag(Self.trailingIndexFeatureFlag)
+    @FeatureFlag(trailingIndexFeatureFlag) // Either pass an existing, shared, feature flag...
     var trailingIndex
     
-    @FeatureFlag(title: "Elements Count", range: 3...10, group: "SWIFTUI EXAMPLE")
-    var elementsCount = 50
+    @FeatureFlag(title: "Elements Count", range: 3...10, group: "SWIFTUI EXAMPLE") // ...or declare a new feature flag just for this view
+    var elementsCount = 5
 
     var body: some View {
         List {
-            Section {
-                Stepper($elementsCount.title, value: $elementsCount.valueBinding, in: $elementsCount.range)
-            }
             ForEach(Array(1 ... elementsCount), id: \.self) { i in
                 if trailingIndex {
                     HStack {
@@ -40,3 +37,4 @@ struct Example3View: View {
         .navigationTitle($elementsCount.title + " \(elementsCount)/\($elementsCount.defaultValue)")
     }
 }
+
