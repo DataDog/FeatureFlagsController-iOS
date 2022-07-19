@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FeatureFlagsController"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "Easy Feature Flags management"
   s.description  = <<-DESC
     Register any kind of feature flags (Bool, CaseIterable enum, etc...) in your app and access them automatically at runtime in a nice SwiftUI form.
